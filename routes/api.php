@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ProdutoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -12,3 +13,6 @@ Route::put('produto/{id}' , [ProdutoController::class , 'update']);
 
 Route::delete('produto/{id}', [ProdutoController::class, 'delete']);
 
+Route::post('cliente', [ClienteController::class, 'store']);
+
+Route::get('cliente', [ClienteController::class, 'index']);

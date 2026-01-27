@@ -8,22 +8,26 @@ use Illuminate\Http\Request;
 class ClienteController extends Controller
 {
     public function store(Request $request){
-        $cliente = Cliente::where('cpf', '=', '$request');
+
+        $cliente = Cliente::where('cpf', '=', $request->cpf)->get();
+        
+
+        //verificar se existe cpf
+          if($cliente->count() == 1){
+             return response()-> json(['message'=> 'Cpf duplicado']);
+        }
+        
         $cliente = Cliente::create([
             'nome'=> $request-> nome,
             'cpf'=> $request-> cpf,
-            'idade'=> $request-> idade
-        ]);
+            'idade'=> $request-> idade            
+            ]);
 
         return response()-> json($cliente);
     }
 
     public function index(){
         $cliente = Cliente::all();
-
-        if(!$cliente){
-            return response()-> json(['message'=> 'Cpf duplicado']);
-        }
 
 
         return response ()-> json($cliente);

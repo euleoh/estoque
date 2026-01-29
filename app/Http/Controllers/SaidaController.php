@@ -2,17 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cliente;
+use App\Models\Produto;
 use App\Models\Saida;
 use Illuminate\Http\Request;
 
 class SaidaController extends Controller
 {
     public function store(Request $request){
-        $saida = Saida::create([
+ 
+      $cliente = Cliente::find($request->id_cliente);
+      $produto = Produto::find($request->id_produto);
+
+      if($cliente-> idade < $produto-> faixa_etaria_minima){
+        return response()-> json(["message"=> "Idade insuficiente"]);
+      } 
+ 
+    $saida = Saida::create([
         'id_cliente'=> $request-> id_cliente,
         'id_produto'=> $request-> id_produto,
         'quantidade'=> $request-> quantidade
         ]);
+
+        $produto-> quantidade_estoque -= $saida-> quantidade;
+
+        $produto-> update();
 
         return response()-> json($saida);
     }

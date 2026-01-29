@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 class EntradaController extends Controller
 {
     public function store(Request $request){
+        
     $produto = Produto::find($request->id_produto);  
     
     if(!$produto){
@@ -22,7 +23,7 @@ class EntradaController extends Controller
     }
 
     if(isset($entrada)){
-        $produto-> estoque += $entrada->quantidade;
+        $produto-> quantidade_estoque += $entrada->quantidade;
     }
     
     $produto-> update();
@@ -52,6 +53,7 @@ class EntradaController extends Controller
         if(isset($produto)){
             $produto-> quantidade_estoque -= $quantidade;
         }
+
 
         $produto-> update();
 
